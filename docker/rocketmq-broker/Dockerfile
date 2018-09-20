@@ -15,7 +15,7 @@
 # limitations under the License.
 #
 
-FROM registry.cn-hangzhou.aliyuncs.com/szss/rocketmq-base:4.3.1
+FROM registry.cn-hangzhou.aliyuncs.com/szss/rocketmq-base:v4.3.1
 #FROM szss/rocketmq-base:4.3.1
 
 ENV NAME_SRV_ADDR="rockermq-broker-0.rockermq-broker.rocketmq:9876,rockermq-broker-1.rockermq-broker.rocketmq:9876"

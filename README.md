@@ -1,10 +1,10 @@
 # 1 打包docker镜像
 ```bash
-docker build ./docker/rocketmq-base -t szss/rocketmq-base:4.3.1
+docker build ./docker/rocketmq-base -t szss/rocketmq-base:v4.3.1
 
-docker build ./docker/rocketmq-broker -t szss/rocketmq-broker:4.3.1
+docker build ./docker/rocketmq-broker -t szss/rocketmq-broker:v4.3.1
 
-docker build ./docker/rocketmq-namesrv -t szss/rocketmq-namesrv:4.3.1
+docker build ./docker/rocketmq-namesrv -t szss/rocketmq-namesrv:v4.3.1
 ```
 
 # 3 创建namespace
