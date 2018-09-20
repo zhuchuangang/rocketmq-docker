@@ -1,0 +1,91 @@
+---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  namespace: rocketmq
+  name: configmap-rocketmq-broker-master-prod
+data:
+  NAME_SRV_ADDR: "statefulset-rocketmq-namesrv-prod-0.service-rocketmq-namesrv-prod.rocketmq,statefulset-rocketmq-namesrv-prod-1.service-rocketmq-namesrv-prod.rocketmq"
+  BROKER_ID: 0
+  BROKER_ROLE: "ASYNC_MASTER"
+---
+kind: Service
+apiVersion: v1
+metadata:
+  namespace: rocketmq
+  name: service-rocketmq-broker-master-prod
+  labels:
+    app: service-rocketmq-broker-master-prod
+spec:
+  ports:
+  - protocol: TCP
+    port: 10909
+    targetPort: 10909
+  - protocol: TCP
+    port: 10911
+    targetPort: 10911
+  selector:
+    app: pod-rocketmq-broker-master-prod
+  type: ClusterIP
+  sessionAffinity: ClientIP
+
+---
+kind: StatefulSet
+apiVersion: apps/v1beta2
+metadata:
+  namespace: rocketmq
+  name: deployment-rocketmq-broker-master-prod
+  labels:
+    app: deployment-rocketmq-broker-master-prod
+spec:
+  replicas: 2
+  serviceName: service-rocketmq-broker-master-prod
+  selector:
+    matchLabels:
+      app: pod-rocketmq-broker-master-prod
+  updateStrategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: pod-rocketmq-broker-master-prod
+    spec:
+      nodeSelector:
+        node: "rocketmq"
+
+      containers:
+      - image: registry.cn-hangzhou.aliyuncs.com/szss/rocketmq-broker:v4.3.1
+        securityContext:
+          privileged: true
+        imagePullPolicy: IfNotPresent
+        name: container-rocketmq-broker-master-prod
+        ports:
+        - protocol: TCP
+          containerPort: 10909
+        - protocol: TCP
+          containerPort: 10911
+
+        envFrom:
+        - configMapRef:
+            name: configmap-apollo-broker-master-prod
+
+        env:
+        - name: BROKER_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+
+        readinessProbe:
+          tcpSocket:
+            port: 10909
+          initialDelaySeconds: 10
+          periodSeconds: 5
+
+        livenessProbe:
+          tcpSocket:
+            port: 10909
+          initialDelaySeconds: 120
+          periodSeconds: 10
+
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always

@@ -1,0 +1,66 @@
+---
+kind: Service
+apiVersion: v1
+metadata:
+  namespace: rocketmq
+  name: service-rocketmq-namesrv-prod
+  labels:
+    app: service-rocketmq-namesrv-prod
+spec:
+  ports:
+  - protocol: TCP
+    port: 9876
+    targetPort: 9876
+  selector:
+    app: pod-rocketmq-namesrv-prod
+  type: ClusterIP
+  sessionAffinity: ClientIP
+
+---
+kind: StatefulSet
+apiVersion: apps/v1beta2
+metadata:
+  namespace: rocketmq
+  name: statefulset-rocketmq-namesrv-prod
+  labels:
+    app: statefulset-rocketmq-namesrv-prod
+spec:
+  replicas: 2
+  serviceName: service-rocketmq-namesrv-prod
+  selector:
+    matchLabels:
+      app: pod-rocketmq-namesrv-prod
+  updateStrategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: pod-rocketmq-namesrv-prod
+    spec:
+      nodeSelector:
+        node: "rocketmq"
+
+      containers:
+      - image: registry.cn-hangzhou.aliyuncs.com/szss/rocketmq-namesrv:v4.3.1
+        securityContext:
+          privileged: true
+        imagePullPolicy: IfNotPresent
+        name: container-rocketmq-namesrv-prod
+        ports:
+        - protocol: TCP
+          containerPort: 9876
+
+        readinessProbe:
+          tcpSocket:
+            port: 9876
+          initialDelaySeconds: 10
+          periodSeconds: 5
+
+        livenessProbe:
+          tcpSocket:
+            port: 9876
+          initialDelaySeconds: 120
+          periodSeconds: 10
+
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
