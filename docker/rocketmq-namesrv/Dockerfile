@@ -15,8 +15,8 @@
 # limitations under the License.
 #
 
-#FROM registry.cn-hangzhou.aliyuncs.com/szss/rocketmq-base:4.3.1
-FROM szss/rocketmq-base:4.3.1
+FROM registry.cn-hangzhou.aliyuncs.com/szss/rocketmq-base:4.3.1
+#FROM szss/rocketmq-base:4.3.1
 
 EXPOSE 9876
 
