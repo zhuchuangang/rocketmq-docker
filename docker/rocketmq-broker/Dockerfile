@@ -34,5 +34,6 @@ COPY scripts/ ${ROCKETMQ_HOME}/bin/
 
 ENTRYPOINT ${ROCKETMQ_HOME}/bin/entrypoint.sh
 
-CMD export JAVA_OPT=" -Duser.home=/opt" \
- && sh ${ROCKETMQ_HOME}/bin/mqbroker -c ${ROCKETMQ_HOME}/conf/broker.conf
+CMD cd ${ROCKETMQ_HOME}/bin \
+ && export JAVA_OPT=" -Duser.home=/opt" \
+ && sh mqbroker -c ../broker.conf
