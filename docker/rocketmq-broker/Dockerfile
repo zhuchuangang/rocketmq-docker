@@ -35,7 +35,3 @@ COPY scripts/ ${ROCKETMQ_HOME}/bin/
 RUN chmod a+x ${ROCKETMQ_HOME}/bin/entrypoint.sh
 
 ENTRYPOINT ${ROCKETMQ_HOME}/bin/entrypoint.sh
-
-CMD cd ${ROCKETMQ_HOME}/bin \
- && export JAVA_OPT=" -Duser.home=/opt" \
- && sh mqbroker -c ../broker.conf

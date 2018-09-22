@@ -49,4 +49,6 @@ mapedFileSizeConsumeQueue=300000
 #diskMaxUsedSpaceRatio=88
 EOF
 
-exec $@
+cd ${ROCKETMQ_HOME}/bin \
+ && export JAVA_OPT=" -Duser.home=/opt" \
+ && sh mqbroker -c ../conf/broker.conf
