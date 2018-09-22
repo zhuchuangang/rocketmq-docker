@@ -5,7 +5,7 @@ metadata:
   namespace: rocketmq
   name: configmap-rocketmq-broker-master-prod
 data:
-  NAME_SRV_ADDR: "statefulset-rocketmq-namesrv-prod-0.service-rocketmq-namesrv-prod.rocketmq:9876,statefulset-rocketmq-namesrv-prod-1.service-rocketmq-namesrv-prod.rocketmq:9876"
+  NAME_SRV_ADDR: "statefulset-rocketmq-namesrv-prod-0.service-rocketmq-namesrv-prod.rocketmq:9876;statefulset-rocketmq-namesrv-prod-1.service-rocketmq-namesrv-prod.rocketmq:9876"
   BROKER_ID: "0"
   BROKER_ROLE: "ASYNC_MASTER"
 ---
