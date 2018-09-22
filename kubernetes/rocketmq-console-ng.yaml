@@ -74,7 +74,7 @@ spec:
             memory: 1024Mi
           # 资源限制
           limits:
-            cpu: 0.2
+            cpu: 0.5
             memory: 2048Mi
 
         readinessProbe:
