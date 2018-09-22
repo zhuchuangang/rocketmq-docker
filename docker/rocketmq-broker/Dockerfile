@@ -32,7 +32,7 @@ RUN mv ${ROCKETMQ_HOME}/bin/runbroker-customize.sh ${ROCKETMQ_HOME}/bin/runbroke
 
 COPY scripts/ ${ROCKETMQ_HOME}/bin/
 
-RUN chomd a+x ${ROCKETMQ_HOME}/bin/entrypoint.sh
+RUN chmod a+x ${ROCKETMQ_HOME}/bin/entrypoint.sh
 
 ENTRYPOINT ${ROCKETMQ_HOME}/bin/entrypoint.sh
 
