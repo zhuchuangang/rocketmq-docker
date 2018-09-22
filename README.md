@@ -17,3 +17,9 @@ kubectl create namespace rocketmq
 kubectl label nodes kube-node node=rocketmq
 ```
 > 注意：kube-node为节点名称,根据实际情况进行设置
+
+
+# 5 启动namesrv
+```bash
+kubectl create -f ./rocketmq-namesrv.yaml
+```

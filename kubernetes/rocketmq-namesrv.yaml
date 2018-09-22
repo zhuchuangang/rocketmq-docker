@@ -62,5 +62,18 @@ spec:
           initialDelaySeconds: 120
           periodSeconds: 10
 
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                  - registry
+              topologyKey: kubernetes.io/hostname
+
       dnsPolicy: ClusterFirst
       restartPolicy: Always
