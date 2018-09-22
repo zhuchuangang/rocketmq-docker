@@ -18,11 +18,11 @@ metadata:
     app: service-rocketmq-broker-master-prod
 spec:
   ports:
-  - name: ROCKETMQ-PORT
+  - name: rocketmq-port-10909
     protocol: TCP
     port: 10909
     targetPort: 10909
-  - name: BROKER-PORT
+  - name: rocketmq-port-10911
     protocol: TCP
     port: 10911
     targetPort: 10911

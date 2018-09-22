@@ -18,10 +18,12 @@ metadata:
     app: service-rocketmq-broker-slave-prod
 spec:
   ports:
-  - protocol: TCP
+  - name: rocketmq-port-10909
+    protocol: TCP
     port: 10909
     targetPort: 10909
-  - protocol: TCP
+  - name: rocketmq-port-10911
+    protocol: TCP
     port: 10911
     targetPort: 10911
   selector:
