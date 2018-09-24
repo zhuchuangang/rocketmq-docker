@@ -33,8 +33,8 @@ ENV ROCKETMQ_HOME  /opt/rocketmq-${ROCKETMQ_VERSION}
 #WORKDIR  ${ROCKETMQ_HOME}
 
 RUN mkdir -p \
- /opt/logs \
- /opt/store
+ /opt/rocketmq/logs \
+ /opt/rocketmq/store
 
 # get the version
 RUN curl http://mirrors.hust.edu.cn/apache/rocketmq/${ROCKETMQ_VERSION}/rocketmq-all-${ROCKETMQ_VERSION}-bin-release.zip -o /opt/rocketmq-all-${ROCKETMQ_VERSION}-bin-release.zip \
