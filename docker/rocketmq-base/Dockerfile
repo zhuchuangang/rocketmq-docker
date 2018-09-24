@@ -45,4 +45,4 @@ RUN curl http://mirrors.hust.edu.cn/apache/rocketmq/${ROCKETMQ_VERSION}/rocketmq
 # add scripts
 COPY scripts/ ${ROCKETMQ_HOME}/bin/
 
-VOLUME /opt/logs /opt/store
+VOLUME /opt/rocketmq/logs /opt/rocketmq/store
