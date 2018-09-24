@@ -73,7 +73,7 @@ spec:
                 - key: app
                   operator: In
                   values:
-                  - registry
+                  - pod-rocketmq-namesrv-prod
               topologyKey: kubernetes.io/hostname
 
       dnsPolicy: ClusterFirst

@@ -99,7 +99,7 @@ spec:
                 - key: app
                   operator: In
                   values:
-                  - registry
+                  - pod-rocketmq-broker-master-prod
               topologyKey: kubernetes.io/hostname
 
 
