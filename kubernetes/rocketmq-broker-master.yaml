@@ -29,6 +29,7 @@ spec:
   selector:
     app: pod-rocketmq-broker-master-prod
   type: ClusterIP
+  clusterIP: None
   sessionAffinity: ClientIP
 
 ---
@@ -36,9 +37,9 @@ kind: StatefulSet
 apiVersion: apps/v1beta2
 metadata:
   namespace: rocketmq
-  name: deployment-rocketmq-broker-master-prod
+  name: statefulset-rocketmq-broker-master-prod
   labels:
-    app: deployment-rocketmq-broker-master-prod
+    app: statefulset-rocketmq-broker-master-prod
 spec:
   replicas: 2
   serviceName: service-rocketmq-broker-master-prod

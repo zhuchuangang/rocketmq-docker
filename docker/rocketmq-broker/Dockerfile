@@ -18,10 +18,13 @@
 FROM registry.cn-hangzhou.aliyuncs.com/szss/rocketmq-base:v4.3.1
 #FROM szss/rocketmq-base:4.3.1
 
+ENV BROKER_CLUSTER_NAME="RocketMQCluster"
 ENV NAME_SRV_ADDR="rockermq-broker-0.rockermq-broker.rocketmq:9876,rockermq-broker-1.rockermq-broker.rocketmq:9876"
 ENV BROKER_ID=0
 ENV BROKER_ROLE="ASYNC_MASTER"
-ENV BROKER_NAME="broker-a"
+ENV STATEFULSET_NAME=""
+ENV BROKER_NAME=""
+ENV BROKER_NAME_PREFIX="broker-a"
 
 EXPOSE 10909 10911
 

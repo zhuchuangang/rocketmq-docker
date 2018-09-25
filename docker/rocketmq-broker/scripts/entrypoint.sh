@@ -1,8 +1,16 @@
 #!/bin/bash
 
+
+
+if [${POD_NAME} == "" ]; then
+    POD_NUMBER=${POD_NAME#*${STATEFULSET_NAME}'-'}
+    BROKER_ROLE=${BROKER_NAME_PREFIX}'-'${POD_NUMBER}
+fi
+
+
 cat > ${ROCKETMQ_HOME}/conf/broker.conf <<EOF
 #集群名称
-brokerClusterName=RocketMQCluster
+brokerClusterName=${BROKER_CLUSTER_NAME}
 #broker名称
 brokerName=${BROKER_NAME}
 #0 表示Master,>0 表示Slave
