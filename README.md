@@ -23,3 +23,13 @@ kubectl label nodes kube-node node=rocketmq
 ```bash
 kubectl create -f ./rocketmq-namesrv.yaml
 ```
+
+# 6 启动broker主节点
+```bash
+kubectl create -f ./rocketmq-broker-master.yaml
+```
+
+# 7 启动broker从节点
+```bash
+kubectl create -f ./rocketmq-broker-slave.yaml
+```
