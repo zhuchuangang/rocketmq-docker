@@ -1,10 +1,8 @@
 #!/bin/bash
 
-
-
-if [${POD_NAME} == "" ]; then
+if [ ${POD_NAME} != "" ]; then
     POD_NUMBER=${POD_NAME#*${STATEFULSET_NAME}'-'}
-    BROKER_ROLE=${BROKER_NAME_PREFIX}'-'${POD_NUMBER}
+    BROKER_NAME=${BROKER_NAME_PREFIX}'-'${POD_NUMBER}
 fi
 
 
