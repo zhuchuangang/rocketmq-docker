@@ -24,9 +24,9 @@ namesrvAddr=${NAME_SRV_ADDR}
 #在发送消息时，自动创建服务器不存在的topic，默认创建的队列数
 defaultTopicQueueNums=4
 #是否允许 Broker 自动创建Topic，建议线下开启，线上关闭
-autoCreateTopicEnable=false
+autoCreateTopicEnable=${AUTO_CREATE_TOPIC_ENABLE}
 #是否允许 Broker 自动创建订阅组，建议线下开启，线上关闭
-autoCreateSubscriptionGroup=false
+autoCreateSubscriptionGroup=${AUTO_CREATE_SUBSCRIPTION_GROUP}
 #默认不配置brokerIP1和brokerIP2时，都会根据当前网卡选择一个IP使用，当你的机器有多块网卡时，很有可能会有问题。
 #brokerIP1=10.100.50.111
 #存储路径
@@ -42,13 +42,13 @@ storeCheckpoint=/opt/rocketmq/store/checkpoint
 #abort 文件存储路径
 abortFile=/opt/rocketmq/store/abort
 #删除文件时间点，默认凌晨 4点
-deleteWhen=04
+deleteWhen=${DELETE_WHEN}
 #文件保留时间，默认 48 小时
 fileReservedTime=120
-# commitLog每个文件的大小默认1G
-mapedFileSizeCommitLog=1073741824
+#commitLog每个文件的大小默认1G
+mapedFileSizeCommitLog=${MAPED_FILE_SIZE_COMMIT_LOG}
 #ConsumeQueue每个文件默认存30W条，根据业务情况调整
-mapedFileSizeConsumeQueue=300000
+mapedFileSizeConsumeQueue=${MAPED_FILE_SIZE_CONSUME_QUEUE}
 #destroyMapedFileIntervalForcibly=120000
 #redeleteHangedFileInterval=120000
 #检测物理文件磁盘空间
