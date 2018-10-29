@@ -5,6 +5,13 @@ if [ ${POD_NAME} != "" ]; then
     BROKER_NAME=${BROKER_NAME_PREFIX}'-'${POD_NUMBER}
 fi
 
+BROKER_CONFIG=""
+
+if [ ${PULL_MESSAGE_THREAD_POOL_NUMS} != "" ]; then
+    #拉取信息线程池线程个数
+    BROKER_CONFIG="pullMessageThreadPoolNums="${PULL_MESSAGE_THREAD_POOL_NUMS}
+fi
+
 
 cat > ${ROCKETMQ_HOME}/conf/broker.conf <<EOF
 #集群名称
@@ -53,6 +60,10 @@ mapedFileSizeConsumeQueue=${MAPED_FILE_SIZE_CONSUME_QUEUE}
 #redeleteHangedFileInterval=120000
 #检测物理文件磁盘空间
 #diskMaxUsedSpaceRatio=88
+#发送信息线程池线程个数
+sendMessageThreadPoolNums=${SEND_MESSAGE_THREAD_POOL_NUMS}
+#附加配置
+${BROKER_CONFIG}
 EOF
 
 cd ${ROCKETMQ_HOME}/bin \
