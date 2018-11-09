@@ -1,13 +1,13 @@
 #!/bin/bash
 
-if [ ${POD_NAME} != "" ]; then
+if [[ ${POD_NAME} != "" ]]; then
     POD_NUMBER=${POD_NAME#*${STATEFULSET_NAME}'-'}
     BROKER_NAME=${BROKER_NAME_PREFIX}'-'${POD_NUMBER}
 fi
 
 BROKER_CONFIG=""
 
-if [ ${PULL_MESSAGE_THREAD_POOL_NUMS} != "" ]; then
+if [[ ${PULL_MESSAGE_THREAD_POOL_NUMS} != "" ]]; then
     #拉取信息线程池线程个数
     BROKER_CONFIG="pullMessageThreadPoolNums="${PULL_MESSAGE_THREAD_POOL_NUMS}
 fi
