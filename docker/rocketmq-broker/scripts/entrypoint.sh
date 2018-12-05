@@ -7,10 +7,24 @@ fi
 
 BROKER_CONFIG=""
 
+PULL_MESSAGE_THREAD_POOL_NUMS_CONFIG=""
 if [[ ${PULL_MESSAGE_THREAD_POOL_NUMS} != "" ]]; then
     #拉取信息线程池线程个数
-    BROKER_CONFIG="pullMessageThreadPoolNums="${PULL_MESSAGE_THREAD_POOL_NUMS}
+    PULL_MESSAGE_THREAD_POOL_NUMS_CONFIG="pullMessageThreadPoolNums="${PULL_MESSAGE_THREAD_POOL_NUMS}
 fi
+
+BROKER_IP1_CONFIG=""
+if [[ ${BROKER_IP1} != "" ]]; then
+    #broker ip
+    BROKER_IP1_CONFIG="brokerIP1="${BROKER_IP1}
+fi
+
+BROKER_IP2_CONFIG=""
+if [[ ${BROKER_IP2} != "" ]]; then
+    #broker ip
+    BROKER_IP2_CONFIG="brokerIP2="${BROKER_IP2}
+fi
+
 
 
 cat > ${ROCKETMQ_HOME}/conf/broker.conf <<EOF
@@ -36,6 +50,8 @@ autoCreateTopicEnable=${AUTO_CREATE_TOPIC_ENABLE}
 autoCreateSubscriptionGroup=${AUTO_CREATE_SUBSCRIPTION_GROUP}
 #默认不配置brokerIP1和brokerIP2时，都会根据当前网卡选择一个IP使用，当你的机器有多块网卡时，很有可能会有问题。
 #brokerIP1=10.100.50.111
+${BROKER_IP1_CONFIG}
+${BROKER_IP2_CONFIG}
 #存储路径
 storePathRootDir=/opt/rocketmq/store
 #commitLog 存储路径
@@ -62,8 +78,8 @@ mapedFileSizeConsumeQueue=${MAPED_FILE_SIZE_CONSUME_QUEUE}
 #diskMaxUsedSpaceRatio=88
 #发送信息线程池线程个数
 sendMessageThreadPoolNums=${SEND_MESSAGE_THREAD_POOL_NUMS}
-#附加配置
-${BROKER_CONFIG}
+#拉取信息线程池线程个数
+${PULL_MESSAGE_THREAD_POOL_NUMS_CONFIG}
 EOF
 
 cd ${ROCKETMQ_HOME}/bin \
