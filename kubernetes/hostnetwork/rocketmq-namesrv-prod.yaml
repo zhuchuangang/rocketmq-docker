@@ -19,7 +19,7 @@ spec:
 
 ---
 kind: StatefulSet
-apiVersion: apps/v1beta2
+apiVersion: apps/v1
 metadata:
   namespace: rocketmq
   name: statefulset-rocketmq-namesrv-prod
@@ -39,7 +39,8 @@ spec:
         app: pod-rocketmq-namesrv-prod
     spec:
       nodeSelector:
-        node: "rocketmq"
+        node-role.kubernetes.io/rocketmq: "true"
+      hostNetwork: true
 
       containers:
       - image: registry.cn-hangzhou.aliyuncs.com/szss/rocketmq-namesrv:v4.3.1
@@ -50,6 +51,14 @@ spec:
         ports:
         - protocol: TCP
           containerPort: 9876
+
+        resources:
+          requests:
+            cpu: 1
+            memory: 1740Mi
+          limits:
+            cpu: 1
+            memory: 2048Mi
 
         readinessProbe:
           tcpSocket:

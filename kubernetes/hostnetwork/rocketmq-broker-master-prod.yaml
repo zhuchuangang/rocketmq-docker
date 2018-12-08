@@ -1,0 +1,128 @@
+---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  namespace: rocketmq
+  name: configmap-rocketmq-broker-master-prod
+data:
+  NAME_SRV_ADDR: "172.16.1.166:9876;172.16.1.167:9876"
+  BROKER_ID: "0"
+  BROKER_ROLE: "ASYNC_MASTER"
+  STATEFULSET_NAME: "statefulset-rocketmq-broker-master-prod"
+  SEND_MESSAGE_THREAD_POOL_NUMS: "128"
+---
+kind: Service
+apiVersion: v1
+metadata:
+  namespace: rocketmq
+  name: service-rocketmq-broker-master-prod
+  labels:
+    app: service-rocketmq-broker-master-prod
+spec:
+  ports:
+  - name: rocketmq-port-10909
+    protocol: TCP
+    port: 10909
+    targetPort: 10909
+  - name: rocketmq-port-10911
+    protocol: TCP
+    port: 10911
+    targetPort: 10911
+  selector:
+    app: pod-rocketmq-broker-master-prod
+  type: ClusterIP
+  clusterIP: None
+  sessionAffinity: ClientIP
+
+---
+kind: StatefulSet
+apiVersion: apps/v1
+metadata:
+  namespace: rocketmq
+  name: statefulset-rocketmq-broker-master-prod
+  labels:
+    app: statefulset-rocketmq-broker-master-prod
+spec:
+  replicas: 2
+  serviceName: service-rocketmq-broker-master-prod
+  selector:
+    matchLabels:
+      app: pod-rocketmq-broker-master-prod
+  updateStrategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: pod-rocketmq-broker-master-prod
+    spec:
+      nodeSelector:
+        node-role.kubernetes.io/rocketmq: "true"
+      hostNetwork: true
+
+      containers:
+      - image: registry.cn-hangzhou.aliyuncs.com/szss/rocketmq-broker:v4.3.1
+        securityContext:
+          privileged: true
+        imagePullPolicy: Always
+        name: container-rocketmq-broker-master-prod
+        ports:
+        - protocol: TCP
+          containerPort: 10909
+        - protocol: TCP
+          containerPort: 10911
+
+        resources:
+          requests:
+            cpu: 2
+            memory: 4.5Gi
+          limits:
+            cpu: 2
+            memory: 4.5Gi
+
+        envFrom:
+        - configMapRef:
+            name: configmap-rocketmq-broker-master-prod
+
+        env:
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+
+        volumeMounts:
+        - name: host-volume-rocketmq-broker-master-prod
+          mountPath: /opt/rocketmq/store
+
+        readinessProbe:
+          tcpSocket:
+            port: 10909
+          initialDelaySeconds: 10
+          periodSeconds: 5
+
+        livenessProbe:
+          tcpSocket:
+            port: 10909
+          initialDelaySeconds: 120
+          periodSeconds: 10
+
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                  - pod-rocketmq-broker-master-prod
+              topologyKey: kubernetes.io/hostname
+
+
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+
+      volumes:
+      - name: host-volume-rocketmq-broker-master-prod
+        hostPath:
+          path: /mnt/data/rocketmq-master

@@ -20,14 +20,14 @@ spec:
   - protocol: TCP
     port: 8080
     targetPort: 8080
-    nodePort: 30003
+    nodePort: 30018
   selector:
     app: pod-rocketmq-console-ng-prod
   type: NodePort
 
 ---
 kind: Deployment
-apiVersion: apps/v1beta2
+apiVersion: apps/v1
 metadata:
   namespace: rocketmq
   name: deployment-rocketmq-console-ng-prod
@@ -49,9 +49,6 @@ spec:
       labels:
         app: pod-rocketmq-console-ng-prod
     spec:
-      nodeSelector:
-        node: "rocketmq"
-
       containers:
       - image: styletang/rocketmq-console-ng
         securityContext:
@@ -70,17 +67,17 @@ spec:
         resources:
           # 初始请求资源
           requests:
-            cpu: 0.1
-            memory: 1024Mi
+            cpu: 0.5
+            memory: 1Gi
           # 资源限制
           limits:
             cpu: 0.5
-            memory: 2048Mi
+            memory: 1.5Gi
 
         readinessProbe:
           tcpSocket:
             port: 8080
-          initialDelaySeconds: 10
+          initialDelaySeconds: 60
           periodSeconds: 5
 
         livenessProbe:
