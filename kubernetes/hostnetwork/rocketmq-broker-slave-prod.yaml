@@ -88,6 +88,10 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.name
+        - name: BROKER_IP1
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
 
         volumeMounts:
         - name: host-volume-rocketmq-broker-slave-prod
